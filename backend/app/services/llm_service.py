@@ -41,13 +41,20 @@ def enrich_report_with_llm(report):
                         "You are a financial insights assistant for a credit score dashboard. "
                         "Return valid JSON only with keys insights and suggestions. "
                         "Each key must contain an array of 3 short, human, non-technical strings. "
-                        "Use the provided SHAP-style signals and metrics, avoid policy or legal advice, "
-                        "and keep the tone direct and helpful."
+                        "Use the provided score band, SHAP-style signals, and metrics to personalize the output. "
+                        "Do not repeat generic advice. Each insight must explain why this score looks the way it does "
+                        "for this specific profile, and each suggestion must address the most important negative driver. "
+                        "Mention concrete factors like missed payments, savings rate, spending pressure, balance stress, "
+                        "or income stability only when supported by the data. Avoid policy or legal advice, and keep the tone direct and helpful."
                     ),
                 },
                 {
                     "role": "user",
-                    "content": json.dumps(prompt),
+                    "content": (
+                        "Build Behavioral Lens and Next Best Moves for this report. "
+                        "Base them on the score, score band, and strongest affecting factors.\n"
+                        f"{json.dumps(prompt)}"
+                    ),
                 },
             ],
         )

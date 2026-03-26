@@ -1,0 +1,6 @@
+date,amount,type,category
+01-01-2024,9000,credit,salary
+02-01-2024,100,debit,food
+03-01-2024,120,debit,bills
+04-01-2024,1600,debit,rent
+05-01-2024,300,debit,travel

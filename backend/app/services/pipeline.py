@@ -34,7 +34,7 @@ def analyze_uploaded_csv(file_name, file_content):
     if not transactions:
         raise ValueError("No valid transactions were found in the uploaded CSV.")
 
-    features, metrics, top_categories, monthly_trend = extract_features(transactions)
+    features, metrics, top_categories, monthly_trend, spend_timeline = extract_features(transactions)
     score, explanation = predict_score(features)
 
     return {
@@ -44,4 +44,5 @@ def analyze_uploaded_csv(file_name, file_content):
         "feature_importance": explanation,
         "top_categories": top_categories,
         "monthly_trend": monthly_trend,
+        "spend_timeline": spend_timeline,
     }

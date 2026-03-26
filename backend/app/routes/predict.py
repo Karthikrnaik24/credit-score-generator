@@ -1,6 +1,7 @@
 from fastapi import APIRouter, File, HTTPException, UploadFile
 
 from app.services.insight_builder import build_base_insights
+from app.services.lender_dashboard import build_lender_dashboard
 from app.services.llm_service import enrich_report_with_llm
 from app.services.pipeline import analyze_uploaded_csv
 
@@ -25,3 +26,11 @@ async def predict_from_csv(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail=str(error)) from error
     except Exception as error:
         raise HTTPException(status_code=500, detail=f"Prediction failed: {error}") from error
+
+
+@router.get("/lender-dashboard")
+def lender_dashboard():
+    try:
+        return {"users": build_lender_dashboard()}
+    except Exception as error:
+        raise HTTPException(status_code=500, detail=f"Lender dashboard failed: {error}") from error

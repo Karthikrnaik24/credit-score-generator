@@ -4,11 +4,17 @@ import { gsap } from "gsap";
 import { uploadCsvFile } from "../lib/api";
 
 const REQUIREMENTS = [
-  "Upload a CSV with date, amount, type, and category columns.",
-  "The backend will parse the file and calculate the score.",
-  "Insights and suggestions come from rules plus OpenAI when the API key is set.",
-  "You can use the output page simulator to test better financial scenarios."
+  "Upload a CSV with date, amount, type, and category columns."
 ];
+
+const SAMPLE_CSV = `date,amount,type,category
+2026-03-01,52000,credit,salary
+2026-03-03,14000,debit,rent
+2026-03-05,2800,debit,food
+2026-03-08,2200,debit,shopping
+2026-03-12,4500,credit,freelance
+2026-03-16,0,debit,missed_payment
+2026-03-20,1300,debit,bills`;
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -41,6 +47,18 @@ export default function HomePage() {
 
     return () => ctx.revert();
   }, []);
+
+  const downloadSampleCsv = () => {
+    const blob = new Blob([SAMPLE_CSV], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "sample.csv";
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(url);
+  };
 
   const handleSubmit = async () => {
     if (!selectedFile) {
@@ -75,33 +93,33 @@ export default function HomePage() {
       <main className="page-shell">
         <section className="hero-layout">
           <article className="glass-card hero-panel">
-            <p className="eyebrow">Home Page</p>
-            <h1 className="hero-title">Upload one CSV. Get a premium credit intelligence dashboard.</h1>
+            <p className="eyebrow">AI Financial Intelligence Platform For Credit Decisions</p>
+            <h1 className="hero-title">Turn transaction intelligence into confident credit decisions.</h1>
             <p className="hero-copy">
-              The file goes directly to the backend, where the model scores it, SHAP explains it, and OpenAI can
-              turn the signals into sharp human insights.
+              We help lenders assess risk faster and help users become more creditworthy by transforming transaction
+              behavior into explainable scoring, AI-driven insights, and improvement pathways.
             </p>
 
             <div className="feature-grid">
               <div className="feature-card">
-                <span>Score engine</span>
-                <strong>Model + SHAP</strong>
+                <span>Decision speed</span>
+                <strong>From raw CSV to lender-ready insights in minutes</strong>
               </div>
               <div className="feature-card">
-                <span>Feature 1</span>
-                <strong>LLM insights</strong>
+                <span>Explainability</span>
+                <strong>Transparent drivers behind every score and recommendation</strong>
               </div>
               <div className="feature-card">
-                <span>Feature 2</span>
-                <strong>LLM suggestions</strong>
+                <span>Borrower growth</span>
+                <strong>Practical pathways to improve creditworthiness over time</strong>
               </div>
             </div>
           </article>
 
           <article className="glass-card upload-panel">
             <div className="panel-head">
-              <p className="eyebrow">CSV Upload</p>
-              <h2>Direct backend processing</h2>
+              <p className="eyebrow">Transaction Intake</p>
+              <h2>Upload transaction data for decision intelligence</h2>
             </div>
 
             <label
@@ -158,11 +176,21 @@ export default function HomePage() {
             <p className="status-text">{message}</p>
 
             <div className="instruction-list">
-              {REQUIREMENTS.map((item) => (
-                <div className="instruction-item" key={item}>
-                  {item}
+              <div className="instruction-item">{REQUIREMENTS[0]}</div>
+            </div>
+
+            <div className="sample-card">
+              <div className="sample-head">
+                <div>
+                  <p className="eyebrow">Sample CSV</p>
+                  <h3>Use a ready sample file</h3>
                 </div>
-              ))}
+                <button className="secondary-btn" type="button" onClick={downloadSampleCsv}>
+                  Download sample.csv
+                </button>
+              </div>
+
+              <pre className="sample-preview">{SAMPLE_CSV}</pre>
             </div>
           </article>
         </section>

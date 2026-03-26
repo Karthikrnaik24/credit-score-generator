@@ -16,6 +16,7 @@ def extract_features(transactions):
     essential_spend = 0.0
     luxury_spend = 0.0
     spending_by_category = {}
+    spending_by_date = {}
     monthly_trend = {}
     missed_payments = 0
 
@@ -37,6 +38,7 @@ def extract_features(transactions):
             balance -= amount
             monthly_trend[month_key]["debit"] += amount
             spending_by_category[category] = spending_by_category.get(category, 0.0) + amount
+            spending_by_date[item["date"]] = spending_by_date.get(item["date"], 0.0) + amount
 
             if "missed" in category:
                 missed_payments += 1
@@ -99,6 +101,14 @@ def extract_features(transactions):
         for month, values in sorted(monthly_trend.items())
     ]
 
+    spend_timeline = [
+        {
+            "date": date,
+            "amount": round(amount, 2),
+        }
+        for date, amount in sorted(spending_by_date.items())
+    ]
+
     metrics = {
         "income": round(income, 2),
         "expense": round(expense, 2),
@@ -115,4 +125,4 @@ def extract_features(transactions):
         "luxury_ratio": round(luxury_ratio, 4),
     }
 
-    return feature_vector, metrics, top_categories, trend
+    return feature_vector, metrics, top_categories, trend, spend_timeline

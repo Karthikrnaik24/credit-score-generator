@@ -1,0 +1,6 @@
+date,amount,type,category
+01-01-2024,2200,credit,salary
+02-01-2024,220,debit,food
+03-01-2024,180,debit,bills
+04-01-2024,1400,debit,rent
+05-01-2024,0,debit,missed_payment
