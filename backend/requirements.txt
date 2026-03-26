@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pandas
+numpy
+scikit-learn
+xgboost
+shap
+pydantic
+python-multipart
+python-dotenv
+openai
